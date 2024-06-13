@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Deteksi</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        video, img {
+            max-width: 100%;
+            height: auto;
+            max-height: 480px; /* Adjust this value as necessary */
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hasil Deteksi</h1>
+        {% if filename.lower().endswith(('.mp4', '.avi', '.mov', '.mkv')) %}
+            <video controls>
+                <source src="{{ url_for('download_file', filename=filename) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% else %}
+            <img src="{{ url_for('download_file', filename=filename) }}" alt="Result Image">
+        {% endif %}
+        <div>
+            <a href="{{ url_for('download_file', filename=filename) }}" class="btn" download>Download Result</a>
+            <a href="{{ url_for('index') }}" class="btn">Go Back to Home Page</a>
+        </div>
+        <div class="info">
+            Rata-rata waktu inferensi: {{ avg_inference_time }} seconds
+        </div>
+    </div>
+</body>
+</html>
